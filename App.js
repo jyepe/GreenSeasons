@@ -1,29 +1,32 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TextInput, StatusBar} from 'react-native';
+import CustomButton from "./components/CustomButton";
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
+const APP_NAME = "Green Seasons";
 
 export default class App extends Component {
+
+  LoginClicked = () => {
+    alert("clicked");
+  }
+
+  SignupClicked = () => {
+    alert("clicked");
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <StatusBar backgroundColor="#4b963b" translucent={true}/>
+        <Text style={styles.appName}>{APP_NAME}</Text>
+        <View style={{width: "90%", marginTop: 100}}>
+          <TextInput placeholder="Username" style={styles.input}/>
+          <TextInput placeholder="Password" secureTextEntry={true} style={styles.input}/>
+        </View>
+        <View style={styles.buttonContainer} >
+          <CustomButton onPress={this.LoginClicked} textValue="Login"/>
+          <CustomButton onPress={this.SignupClicked} textValue="Sign Up"/>
+        </View>
       </View>
     );
   }
@@ -32,18 +35,29 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'green',
   },
-  welcome: {
+  appName: {
+    marginTop: 60, 
+    color: "white", 
+    fontSize: 45, 
+    textAlign: "center", 
+    fontStyle: "italic"
+  },
+  input: {
+    borderWidth: 2, 
+    borderColor: "white", 
+    borderRadius: 200,
+    backgroundColor: "white",
+    paddingLeft: 20,
     fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+    margin: 5
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  buttonContainer: {
+    flexDirection: "row", 
+    width: "90%", 
+    justifyContent: "space-evenly", 
+    marginTop: 20
+  }
 });
