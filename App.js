@@ -17,16 +17,43 @@ export default class App extends Component {
     }
   }
 
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) 
+      {
+        // User is signed in.
+        this.setState({
+          user: user
+        })
+        alert("in")
+        if (!user.emailVerified)
+        {
+          alert("Please verify email.");
+          this.sendUserEmail(user);
+        }
+      }
+      else 
+      {
+        this.setState({
+          user: user
+        })
+        // No user is signed in.
+        alert("out");
+      }
+    });
+  }
+  
+
   LoginClicked = () => {
     const email = this.state.email;
     const password = this.state.password;
 
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      alert(errorMessage);
-    });
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        alert(errorMessage);
+      });
   }
 
   SignupClicked = () => {
@@ -37,10 +64,27 @@ export default class App extends Component {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
-      alert(errorMessage);
+      alert(error);
     });
-    
-    this.sendUserEmail();
+  }
+
+  SignoutClicked = () => {
+    const user = this.state.user;
+
+    if (user !== null)
+    {
+      firebase.auth().signOut().then(function() {
+        alert("Sign-out successful.");
+        // Sign-out successful.
+      }).catch(function(error) {
+        // An error happened.
+        alert(error);
+      });
+    }
+    else
+    {
+      alert("You're not signed in.");
+    }
   }
 
   handleEmailInput = (value) => {
@@ -55,20 +99,13 @@ export default class App extends Component {
     })
   }
 
-  sendUserEmail = () => {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in.
-        user.sendEmailVerification().then(function () {
-          // Email sent.
-        }).catch(function (error) {
-          // An error happened.
-        });
-      }
-      else {
-        // No user is signed in.
-      }
+  sendUserEmail = (user) => {
+    user.sendEmailVerification().then(function () {
+      // Email sent.
+    }).catch(function (error) {
+      // An error happened.
     });
+      
   }
 
   render() {
@@ -83,6 +120,7 @@ export default class App extends Component {
         <View style={styles.buttonContainer} >
           <CustomButton onPress={this.LoginClicked} textValue="Login"/>
           <CustomButton onPress={this.SignupClicked} textValue="Sign Up"/>
+          <CustomButton onPress={this.SignoutClicked} textValue="Sign Out"/>
         </View>
       </View>
     );
