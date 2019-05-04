@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, TextInput, StatusBar} from 'react-native';
-import CustomButton from "./components/CustomButton";
-import { firebase } from "./config";
+import CustomButton from "../CustomButton";
+import { firebase } from "../../config";
 
 const APP_NAME = "Green Seasons";
 
-export default class App extends Component {
+export default class LoginScreen extends Component {
 
   constructor(props) {
     super(props)
