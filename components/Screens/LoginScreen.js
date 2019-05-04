@@ -7,6 +7,10 @@ const APP_NAME = "Green Seasons";
 
 export default class LoginScreen extends Component {
 
+  static navigationOptions = {
+    header: null
+  }
+
   constructor(props) {
     super(props)
   
@@ -25,12 +29,14 @@ export default class LoginScreen extends Component {
         this.setState({
           user: user
         })
-        alert("in")
+        
         if (!user.emailVerified)
         {
           alert("Please verify email.");
           this.sendUserEmail(user);
         }
+
+        this.props.navigation.navigate("Options");
       }
       else 
       {
@@ -111,7 +117,7 @@ export default class LoginScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor="#4b963b" translucent={true}/>
+        <StatusBar backgroundColor="#4b963b" translucent={false} />
         <Text style={styles.appName}>{APP_NAME}</Text>
         <View style={styles.textInputContainer}>
           <TextInput onChangeText={this.handleEmailInput} placeholder="Email" style={styles.input}/>
